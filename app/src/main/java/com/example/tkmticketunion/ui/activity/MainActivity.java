@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mNavigationView.setOnNavigationItemSelectedListener(item -> {
             int index = -1;
             Fragment target = null;
+
             switch (item.getItemId()) {
                 case R.id.item_home:
                     //  首页
@@ -121,22 +122,32 @@ public class MainActivity extends AppCompatActivity {
      * 根据mSelectIndex，显示当前Fragment
      */
     private void switchToCurrentFragment() {
+        //  移除所有Fragment
+        removeAllFragments();
+
         Fragment target = null;
+        int itemId = -1;
+
         if (mSelectIndex == 0) {
             //  首页
             target = mHomeFragment;
+            itemId = R.id.item_home;
         } else if (mSelectIndex == 1) {
             //  特惠
             target = mSaleFragment;
+            itemId = R.id.item_sale;
         } else if (mSelectIndex == 2) {
             //  精选
             target = mChoiceFragment;
+            itemId = R.id.item_choice;
         } else if (mSelectIndex == 3) {
             //  搜索
             target = mSearchFragment;
+            itemId = R.id.item_search;
         }
 
-        if (target != null) {
+        if (target != null && itemId != -1) {
+            mNavigationView.setSelectedItemId(itemId);
             switchToFragment(target);
         }
     }
@@ -161,6 +172,21 @@ public class MainActivity extends AppCompatActivity {
             transaction.show(target);
         }
         //  提交事务
+        transaction.commitNow();
+    }
+
+    /**
+     * 移除此Activity中的所有Fragment
+     */
+    private void removeAllFragments() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        List<Fragment> fragments = fragmentManager.getFragments();
+
+        for (Fragment fragment : fragments) {
+            transaction.remove(fragment);
+        }
+
         transaction.commitNow();
     }
 
