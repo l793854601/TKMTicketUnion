@@ -21,7 +21,6 @@
         app:itemTextColor：设置文字颜色
      -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
