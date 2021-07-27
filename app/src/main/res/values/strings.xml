@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TKMTicketUnion</string>
+    <string name="title_item_home">首页</string>
+    <string name="title_item_sale">特惠</string>
+    <string name="title_item_choice">精选</string>
+    <string name="title_item_search">搜索</string>
 </resources>

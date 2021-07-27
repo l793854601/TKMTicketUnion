@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item_home"
+        android:title="@string/title_item_home"
+        android:icon="@drawable/selector_menu_item_home" />
+
+    <item android:id="@+id/item_sale"
+        android:title="@string/title_item_sale"
+        android:icon="@drawable/selector_menu_item_sale" />
+
+    <item android:id="@+id/item_choice"
+        android:title="@string/title_item_choice"
+        android:icon="@drawable/selector_menu_item_choice" />
+
+    <item android:id="@+id/item_search"
+        android:title="@string/title_item_search"
+        android:icon="@drawable/selector_menu_item_search" />
+</menu>
