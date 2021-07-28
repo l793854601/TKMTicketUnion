@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         initFragments();
         initEvents();
 
+        //  移除所有Fragment
+        removeAllFragmentsIfNeed();
         //  默认选中首页
         switchToCurrentFragment();
     }
@@ -122,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
      * 根据mSelectIndex，显示当前Fragment
      */
     private void switchToCurrentFragment() {
-        //  移除所有Fragment
-        removeAllFragments();
-
         Fragment target = null;
         int itemId = -1;
 
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 移除此Activity中的所有Fragment
      */
-    private void removeAllFragments() {
+    private void removeAllFragmentsIfNeed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         List<Fragment> fragments = fragmentManager.getFragments();
