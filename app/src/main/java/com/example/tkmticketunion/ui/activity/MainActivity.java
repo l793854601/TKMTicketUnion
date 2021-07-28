@@ -20,12 +20,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String SELECT_INDEX_KEY = "SELECT_INDEX_KEY";
+
+    private Unbinder mUnbinder;
 
     //  BottomNavigationView选中的index
     private int mSelectIndex = 0;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         initData(savedInstanceState);
         initFragments();
@@ -62,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
         //  Activity意外退出，则保存mSelectIndex
         outState.putInt(SELECT_INDEX_KEY, mSelectIndex);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mUnbinder != null) {
+            mUnbinder.unbind();
+        }
     }
 
     private void initData(Bundle savedInstanceState) {

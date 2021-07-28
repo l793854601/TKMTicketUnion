@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 网络请求返回
  */
-public class HttpResponse<T extends Serializable> extends BaseModel {
+public class HttpResponse<T> extends BaseModel {
     private boolean success;
     private int code;
     private String message;
@@ -43,5 +43,15 @@ public class HttpResponse<T extends Serializable> extends BaseModel {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "success=" + success +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
