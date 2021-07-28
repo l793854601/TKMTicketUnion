@@ -11,9 +11,4 @@ public class SaleFragment extends BaseFragment {
     protected int getContentViewLayoutId() {
         return R.layout.fragment_sale;
     }
-
-    @Override
-    protected void initViews(View rootView) {
-        setupState(LoadDataState.SUCCESS);
-    }
 }

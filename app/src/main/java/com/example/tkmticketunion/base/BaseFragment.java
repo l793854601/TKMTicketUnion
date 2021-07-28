@@ -196,9 +196,8 @@ public abstract class BaseFragment extends Fragment {
         //  NetworkErrorView
         mNetworkErrorView = loadNetworkErrorView(inflater, container, savedInstanceState);
         mFlContainer.addView(mNetworkErrorView);
-
-        //  将全部view隐藏
-        setupState(LoadDataState.NONE);
+        //  默认展示ContentView
+        setupState(LoadDataState.SUCCESS);
     }
 
     @OnClick(R.id.ll_empty)

@@ -12,8 +12,4 @@ public class ChoiceFragment extends BaseFragment {
         return R.layout.fragment_chioce;
     }
 
-    @Override
-    protected void initViews(View rootView) {
-        setupState(LoadDataState.SUCCESS);
-    }
 }

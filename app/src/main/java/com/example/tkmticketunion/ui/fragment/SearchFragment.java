@@ -11,9 +11,4 @@ public class SearchFragment extends BaseFragment {
     protected int getContentViewLayoutId() {
         return R.layout.fragment_search;
     }
-
-    @Override
-    protected void initViews(View rootView) {
-        setupState(LoadDataState.SUCCESS);
-    }
 }
