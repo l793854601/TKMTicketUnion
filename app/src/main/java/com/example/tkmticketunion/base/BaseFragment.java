@@ -17,6 +17,7 @@ import com.example.tkmticketunion.utils.Constants;
 import com.example.tkmticketunion.utils.LogUtil;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -76,11 +77,6 @@ public abstract class BaseFragment extends Fragment {
         mLoadingView.setVisibility((state == LoadDataState.LOADING ? View.VISIBLE : View.GONE));
         mEmptyView.setVisibility((state == LoadDataState.EMPTY ? View.VISIBLE : View.GONE));
         mNetworkErrorView.setVisibility((state == LoadDataState.FAILED ? View.VISIBLE : View.GONE));
-    }
-
-    protected void setupErrorState(String message) {
-        setupState(LoadDataState.FAILED);
-        //   TODO: 将message显示在textview中
     }
 
     /**
@@ -168,6 +164,13 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
+     * 重新加载，默认执行loadData方法
+     */
+    protected void retry() {
+        loadData();
+    }
+
+    /**
      * 释放资源
      */
     protected void release() {
@@ -198,4 +201,13 @@ public abstract class BaseFragment extends Fragment {
         setupState(LoadDataState.NONE);
     }
 
+    @OnClick(R.id.ll_empty)
+    void onClickEmpty() {
+        retry();
+    }
+
+    @OnClick(R.id.ll_network_error)
+    void onClickNetworkError() {
+        retry();
+    }
 }

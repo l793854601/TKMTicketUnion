@@ -56,22 +56,19 @@ public class HomePresenterImpl implements IHomePresenter {
                         } else {
                             //  Http业务错误
                             if (mCallback != null) {
-                                Exception exception = new Exception(body.getMessage());
-                                mCallback.onGetCategoriesError(exception);
+                                mCallback.onGetCategoriesError();
                             }
                         }
                     } else {
                         //  Http请求结果为null
                         if (mCallback != null) {
-                            Exception exception = new Exception("数据异常");
-                            mCallback.onGetCategoriesError(exception);
+                            mCallback.onGetCategoriesError();
                         }
                     }
                 } else {
                     //  Http请求失败
                     if (mCallback != null) {
-                        Exception exception = new Exception(response.message());
-                        mCallback.onGetCategoriesError(exception);
+                        mCallback.onGetCategoriesError();
                     }
                 }
             }
@@ -80,7 +77,7 @@ public class HomePresenterImpl implements IHomePresenter {
             public void onFailure(Call<HttpResponse<List<Category>>> call, Throwable t) {
                 LogUtil.d(TAG, "load home categories failed: " + t);
                 if (mCallback != null) {
-                    mCallback.onGetCategoriesError(t);
+                    mCallback.onGetCategoriesError();
                 }
             }
         });

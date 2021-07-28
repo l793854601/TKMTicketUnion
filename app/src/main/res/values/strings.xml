@@ -6,4 +6,7 @@
     <string name="title_item_search">搜索</string>
     <string name="home_title">领券联盟</string>
     <string name="hint_home_search_bar">搜你想搜的...东西</string>
+    <string name="tip_network_error">网络错误，请点击重试</string>
+    <string name="tip_loading">加载中...</string>
+    <string name="tip_empty">暂无数据，请点击重试</string>
 </resources>

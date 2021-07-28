@@ -33,9 +33,7 @@ public class HomeCategoryFragment extends BaseFragment {
 
     @Override
     protected void initViews(View rootView) {
-        super.initViews(rootView);
         setupState(LoadDataState.SUCCESS);
         mTv.setText(mCategory.getTitle());
-
     }
 }

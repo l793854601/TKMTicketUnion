@@ -9,6 +9,6 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="加载中..." />
+        android:text="@string/tip_loading" />
 
 </LinearLayout>

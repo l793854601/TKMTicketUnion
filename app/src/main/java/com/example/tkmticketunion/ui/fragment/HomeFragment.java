@@ -115,11 +115,10 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
 
     /**
      * 加载分类失败
-     * @param throwable
      */
     @Override
-    public void onGetCategoriesError(Throwable throwable) {
-        setupErrorState(throwable.getMessage());
+    public void onGetCategoriesError() {
+        setupState(LoadDataState.FAILED);
     }
 
     /**

@@ -27,7 +27,6 @@ public interface IHomeCallback {
 
     /**
      * 获取首页分类失败
-     * @param throwable
      */
-    void onGetCategoriesError(Throwable throwable);
+    void onGetCategoriesError();
 }
