@@ -39,7 +39,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         return mList.size();
     }
 
-    public void setCatrgories(List<Category> categories) {
+    public void setCategories(List<Category> categories) {
         mList.clear();
         mList.addAll(categories);
         notifyDataSetChanged();

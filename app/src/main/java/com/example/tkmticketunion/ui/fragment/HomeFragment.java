@@ -1,7 +1,14 @@
 package com.example.tkmticketunion.ui.fragment;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tkmticketunion.R;
@@ -30,12 +37,24 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     ViewPager mViewPager;
 
     /**
-     * 根布局
+     * 加载根布局
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
      * @return
      */
     @Override
-    protected int getRootViewLayoutId() {
-        return R.layout.fragment_home;
+    protected View loadRootView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    /**
+     * ContentView布局
+     * @return
+     */
+    @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.layout_home_content;
     }
 
     /**
@@ -69,12 +88,38 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     }
 
     /**
+     * 正在加载分类
+     */
+    @Override
+    public void onLoadingCategories() {
+        setupState(LoadDataState.LOADING);
+    }
+
+    /**
      * 加载分类成功
      * @param categories
      */
     @Override
     public void onGetCategoriesSuccess(List<Category> categories) {
-        mPagerAdapter.setCatrgories(categories);
+        setupState(LoadDataState.SUCCESS);
+        mPagerAdapter.setCategories(categories);
+    }
+
+    /**
+     * 加载分类为空
+     */
+    @Override
+    public void onGetCategoriesEmpty() {
+        setupState(LoadDataState.EMPTY);
+    }
+
+    /**
+     * 加载分类失败
+     * @param throwable
+     */
+    @Override
+    public void onGetCategoriesError(Throwable throwable) {
+        setupErrorState(throwable.getMessage());
     }
 
     /**

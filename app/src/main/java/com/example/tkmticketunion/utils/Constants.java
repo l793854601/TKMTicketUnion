@@ -4,6 +4,7 @@ package com.example.tkmticketunion.utils;
  * 常量
  */
 public class Constants {
+
     /**
      * 请求地址
      */

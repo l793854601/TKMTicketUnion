@@ -46,33 +46,11 @@
 
     </LinearLayout>
 
-    <!--
-        app:tabIndicatorColor：底部横线颜色
-        app:tabRippleColor：选中item的背景颜色
-        app:tabSelectedTextColor：选中item的标题颜色
-        app:tabSelectedTextColor：未选中item的标题颜色
-        app:tabMode：是否可滚动
-     -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/home_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/home_indicator_height"
-        android:background="@color/main_theme"
-        app:tabIndicatorColor="@color/home_indicator_color"
-        app:tabRippleColor="@color/transparent"
-        app:tabSelectedTextColor="@color/home_title_selected_color"
-        app:tabTextColor="@color/home_title_color"
-        app:tabMode="scrollable" />
-
-    <!--
-        android:overScrollMode：控制滑动到边缘时的效果，never为去掉阴影效果
-     -->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/home_pager"
+    <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"
-        android:overScrollMode="never" />
+        android:background="@color/white" />
 
 </LinearLayout>

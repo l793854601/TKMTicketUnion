@@ -1,7 +1,11 @@
 package com.example.tkmticketunion.ui.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseFragment;
@@ -23,14 +27,15 @@ public class HomeCategoryFragment extends BaseFragment {
     }
 
     @Override
-    protected int getRootViewLayoutId() {
+    protected int getContentViewLayoutId() {
         return R.layout.fragment_home_category;
     }
 
     @Override
     protected void initViews(View rootView) {
         super.initViews(rootView);
-
+        setupState(LoadDataState.SUCCESS);
         mTv.setText(mCategory.getTitle());
+
     }
 }

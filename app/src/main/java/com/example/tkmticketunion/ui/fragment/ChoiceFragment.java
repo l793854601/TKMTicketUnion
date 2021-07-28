@@ -6,7 +6,7 @@ import com.example.tkmticketunion.base.BaseFragment;
 public class ChoiceFragment extends BaseFragment {
 
     @Override
-    protected int getRootViewLayoutId() {
+    protected int getContentViewLayoutId() {
         return R.layout.fragment_chioce;
     }
 }

@@ -8,6 +8,7 @@ import com.example.tkmticketunion.presenter.IHomePresenter;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.RetrofitUtil;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,28 +24,64 @@ public class HomePresenterImpl implements IHomePresenter {
 
     @Override
     public void getCategories() {
+        //  显示loading
+        if (mCallback != null) {
+            mCallback.onLoadingCategories();
+        }
+        //  网络请求
         Retrofit retrofit = RetrofitUtil.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
         Call<HttpResponse<List<Category>>> call = api.getHomeCategories();
         call.enqueue(new Callback<HttpResponse<List<Category>>>() {
             @Override
             public void onResponse(Call<HttpResponse<List<Category>>> call, Response<HttpResponse<List<Category>>> response) {
-                HttpResponse<List<Category>> body = response.body();
-                if (body.isSuccess() && body.getData() != null) {
-                    LogUtil.d(TAG, "load home categories: " + body);
-                    if (mCallback != null) {
-                        mCallback.onGetCategoriesSuccess(body.getData());
+                int code = response.code();
+                if (code == HttpURLConnection.HTTP_OK) {
+                    //  Http请求成功
+                    HttpResponse<List<Category>> body = response.body();
+                    if (body != null) {
+                        if (body.isSuccess()) {
+                            List<Category> categories = body.getData();
+                            if (categories != null && categories.size() > 0) {
+                                //  请求成功
+                                if (mCallback != null) {
+                                    mCallback.onGetCategoriesSuccess(categories);
+                                }
+                            } else {
+                                //  请求分类为空
+                                if (mCallback != null) {
+                                    mCallback.onGetCategoriesEmpty();
+                                }
+                            }
+                        } else {
+                            //  Http业务错误
+                            if (mCallback != null) {
+                                Exception exception = new Exception(body.getMessage());
+                                mCallback.onGetCategoriesError(exception);
+                            }
+                        }
+                    } else {
+                        //  Http请求结果为null
+                        if (mCallback != null) {
+                            Exception exception = new Exception("数据异常");
+                            mCallback.onGetCategoriesError(exception);
+                        }
                     }
                 } else {
-                    //  TODO: 请求失败，回调
+                    //  Http请求失败
+                    if (mCallback != null) {
+                        Exception exception = new Exception(response.message());
+                        mCallback.onGetCategoriesError(exception);
+                    }
                 }
-
             }
 
             @Override
             public void onFailure(Call<HttpResponse<List<Category>>> call, Throwable t) {
                 LogUtil.d(TAG, "load home categories failed: " + t);
-                //  TODO: 请求失败，回调
+                if (mCallback != null) {
+                    mCallback.onGetCategoriesError(t);
+                }
             }
         });
     }
