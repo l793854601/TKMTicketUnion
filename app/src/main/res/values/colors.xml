@@ -11,4 +11,6 @@
     <color name="home_indicator_color">#FFFFFFFF</color>
     <color name="home_title_selected_color">#FFFFFFFF</color>
     <color name="home_title_color">#aaffffff</color>
+    <color name="tmall">#D0021B</color>
+    <color name="home_category_background">#EFEEEE</color>
 </resources>

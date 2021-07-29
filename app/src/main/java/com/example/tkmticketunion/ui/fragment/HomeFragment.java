@@ -1,8 +1,6 @@
 package com.example.tkmticketunion.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +61,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     protected void initPresenter() {
         mPresenter = new HomePresenterImpl();
-        mPresenter.registerCallback(this);
+        mPresenter.registerViewCallback(this);
     }
 
     /**
@@ -88,14 +86,6 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     }
 
     /**
-     * 正在加载分类
-     */
-    @Override
-    public void onLoadingCategories() {
-        setupState(LoadDataState.LOADING);
-    }
-
-    /**
      * 加载分类成功
      * @param categories
      */
@@ -106,10 +96,18 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     }
 
     /**
+     * 正在加载分类
+     */
+    @Override
+    public void onLoading() {
+        setupState(LoadDataState.LOADING);
+    }
+
+    /**
      * 加载分类为空
      */
     @Override
-    public void onGetCategoriesEmpty() {
+    public void onEmpty() {
         setupState(LoadDataState.EMPTY);
     }
 
@@ -117,7 +115,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
      * 加载分类失败
      */
     @Override
-    public void onGetCategoriesError() {
+    public void onError() {
         setupState(LoadDataState.FAILED);
     }
 
@@ -127,7 +125,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     protected void release() {
         if (mPresenter != null) {
-            mPresenter.unregisterCallback();
+            mPresenter.unregisterViewCallback();
         }
     }
 }

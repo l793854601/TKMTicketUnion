@@ -39,9 +39,13 @@ dependencies {
 
     //  OkHttp网络请求
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    //  OkHttp拦截器
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
     //  Retrofit网络请求
     implementation 'com.squareup.retrofit2:retrofit:2.6.3'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    //  Gson json转model
+    implementation 'com.google.code.gson:gson:2.8.7'
     //  Glide图片加载
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
