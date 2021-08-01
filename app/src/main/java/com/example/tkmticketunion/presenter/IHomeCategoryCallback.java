@@ -1,13 +1,16 @@
 package com.example.tkmticketunion.presenter;
 
-import com.example.tkmticketunion.model.domain.Banner;
 import com.example.tkmticketunion.model.domain.Content;
 
 import java.util.List;
 
 public interface IHomeCategoryCallback {
 
-    void onBannersLoaded(List<Banner> banners);
+    /**
+     * 获取轮播图
+     * @param banners
+     */
+    void onBannersLoaded(List<Content> banners);
 
     /**
      * 加载中

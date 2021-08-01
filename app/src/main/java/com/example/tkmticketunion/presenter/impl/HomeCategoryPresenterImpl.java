@@ -52,6 +52,15 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
                             if (mCallback != null) {
                                 mCallback.onContentsLoaded(contents, isRefresh);
                             }
+
+                            if (isRefresh) {
+                                int fromIndex = contents.size() - 5;
+                                int toIndex = contents.size();
+                                List<Content> banners = contents.subList(fromIndex, toIndex);
+                                if (mCallback != null) {
+                                    mCallback.onBannersLoaded(banners);
+                                }
+                            }
                         }
                     } else {
                         if (mCallback != null) {

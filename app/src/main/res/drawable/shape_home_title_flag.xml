@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="@dimen/radius_home_title_radius" />
+    <solid android:color="@color/main_theme" />
+    <size android:width="@dimen/home_title_flag_width"
+        android:height="@dimen/home_title_flag_height"/>
+</shape>

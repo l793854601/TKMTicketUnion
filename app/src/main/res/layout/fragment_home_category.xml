@@ -6,6 +6,22 @@
     android:background="@color/home_category_background"
     android:gravity="center">
 
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_banner_height" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/home_title_padding"
+        android:drawablePadding="@dimen/home_title_padding"
+        android:drawableLeft="@drawable/shape_home_title_flag"
+        android:drawableRight="@drawable/shape_home_title_flag"
+        android:textSize="@dimen/home_title_size"
+        android:textColor="@color/main_theme" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"

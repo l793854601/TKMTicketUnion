@@ -1,6 +1,5 @@
 package com.example.tkmticketunion.ui.fragment;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.View;
 import android.widget.TextView;
@@ -11,15 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseFragment;
-import com.example.tkmticketunion.model.domain.Banner;
 import com.example.tkmticketunion.model.domain.Category;
 import com.example.tkmticketunion.model.domain.Content;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
+import com.example.tkmticketunion.ui.adapter.HomeBannerAdapter;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.UIUtil;
+import com.youth.banner.Banner;
+import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,21 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
     private Category mCategory;
 
+    private List<Content> mBanners = new ArrayList<>();
+
     private List<Content> mList = new ArrayList<>();
 
     private IHomeCategoryPresenter mPresenter;
 
-    private HomeCategoryAdapter mAdapter;
+    private HomeCategoryAdapter mCategoryAdapter;
+
+    private HomeBannerAdapter mBannerAdapter;
+
+    @BindView(R.id.banner)
+    Banner mBanner;
+
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
 
     @BindView(R.id.rv)
     RecyclerView mRv;
@@ -76,8 +87,15 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             }
         };
         mRv.addItemDecoration(itemDecoration);
-        mAdapter = new HomeCategoryAdapter(getContext(), mList);
-        mRv.setAdapter(mAdapter);
+        mCategoryAdapter = new HomeCategoryAdapter(getContext(), mList);
+        mRv.setAdapter(mCategoryAdapter);
+
+        mBannerAdapter = new HomeBannerAdapter(mBanners);
+        mBanner.setAdapter(mBannerAdapter)
+                .addBannerLifecycleObserver(getActivity())
+                .setIndicator(new CircleIndicator(getActivity()));
+
+        mTvTitle.setText(mCategory.getTitle());
     }
 
     @Override
@@ -93,8 +111,11 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     }
 
     @Override
-    public void onBannersLoaded(List<Banner> banners) {
-
+    public void onBannersLoaded(List<Content> banners) {
+        mBanners.clear();
+        mBanners.addAll(banners);
+        mBannerAdapter.notifyDataSetChanged();
+        mBanner.setVisibility(banners.size() > 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -114,7 +135,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             setupState(LoadDataState.SUCCESS);
         }
 
-        mAdapter.setContents(contents, isRefresh);
+        mCategoryAdapter.setContents(contents, isRefresh);
     }
 
     @Override
