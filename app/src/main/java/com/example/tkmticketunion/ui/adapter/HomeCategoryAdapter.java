@@ -26,26 +26,29 @@ import java.util.List;
 
 public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface OnItemClickListener {
+        void onBannerClicked(Content content, int position);
+        void onContentClicked(Content content, int position);
+    }
+
     private static final String TAG = "HomeCategoryAdapter";
 
     private static final int ITEM_TYPE_BANNER = 1;
     private static final int ITEM_TYPE_TITLE = 2;
     private static final int ITEM_TYPE_CONTENT = 3;
 
+    private OnItemClickListener mOnItemClickListener;
+
     private Context mContext;
     private List<Content> mBanners = new ArrayList<>();
     private List<Content> mContents = new ArrayList<>();
     private String mTitle;
 
-    public HomeCategoryAdapter(Context context, List<Content> banners, List<Content> contents) {
+    public HomeCategoryAdapter(Context context, String title, List<Content> banners, List<Content> contents) {
         mContext = context;
+        mTitle = title;
         mBanners = banners;
         mContents = contents;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
-        notifyDataSetChanged();
     }
 
     public void setBanners(List<Content> banners) {
@@ -60,6 +63,10 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         mContents.addAll(contents);
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -94,6 +101,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //  内容
             View contentView = layoutInflater.inflate(R.layout.item_home_category_content, parent, false);
             ContentViewHolder viewHolder = new ContentViewHolder(contentView);
+            contentView.setOnClickListener(v -> {
+                if (mOnItemClickListener != null) {
+                    int position = viewHolder.getAdapterPosition() - 2;
+                    Content content = mContents.get(position);
+                    mOnItemClickListener.onBannerClicked(content, position);
+                }
+            });
             return viewHolder;
         }
         return null;
@@ -127,7 +141,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        private Banner mBanner;
+        private Banner<Content, HomeBannerAdapter> mBanner;
 
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +152,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mBanner.setAdapter(new HomeBannerAdapter(contents))
                     .addBannerLifecycleObserver((LifecycleOwner) mContext)
                     .setIndicator(new CircleIndicator(mContext));
+
+            //  要在设置Adapter之后，再设置点击监听
+            mBanner.setOnBannerListener((data, position) -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onBannerClicked(data, position);
+                }
+            });
         }
     }
 

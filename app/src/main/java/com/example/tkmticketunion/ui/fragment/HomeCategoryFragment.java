@@ -95,11 +95,8 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         mRv.addItemDecoration(itemDecoration);
 
         //  设置RecyclerView的Adapter
-        mAdapter = new HomeCategoryAdapter(getContext(), mBanners, mContents);
+        mAdapter = new HomeCategoryAdapter(getContext(), mCategory.getTitle(), mBanners, mContents);
         mRv.setAdapter(mAdapter);
-
-        //  设置标题
-        mAdapter.setTitle(mCategory.getTitle());
     }
 
     @Override
@@ -116,6 +113,18 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 LogUtil.d(TAG, "onRefresh");
                 mPresenter.getContentByCategoryId(mCategory.getId(), false);
+            }
+        });
+
+        mAdapter.setOnItemClickListener(new HomeCategoryAdapter.OnItemClickListener() {
+            @Override
+            public void onBannerClicked(Content content, int position) {
+                LogUtil.d(TAG, "onBannerClicked: position = " + position + ", title = " + content.getTitle());
+            }
+
+            @Override
+            public void onContentClicked(Content content, int position) {
+                LogUtil.d(TAG, "onContentClicked: position = " + position + ", title = " + content.getTitle());
             }
         });
     }
