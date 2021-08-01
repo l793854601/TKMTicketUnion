@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/home_category_background">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/home_rv_margin"
+        android:layout_marginBottom="@dimen/margin_home_banner"
+        android:background="@color/home_category_background"
+        android:drawableLeft="@drawable/shape_home_title_flag"
+        android:drawableRight="@drawable/shape_home_title_flag"
+        android:drawablePadding="@dimen/home_title_padding"
+        android:textColor="@color/main_theme"
+        android:textSize="@dimen/home_title_size" />
+
+</LinearLayout>

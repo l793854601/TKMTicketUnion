@@ -30,8 +30,8 @@
     <dimen name="home_title_flag_height">4dp</dimen>
     <dimen name="home_title_padding">5dp</dimen>
     <dimen name="home_title_size">16sp</dimen>
-    <dimen name="margin_home_banner">15dp</dimen>
-    <dimen name="home_rv_margin">15dp</dimen>
+    <dimen name="margin_home_banner">10dp</dimen>
+    <dimen name="home_rv_margin">10dp</dimen>
 
 
 </resources>

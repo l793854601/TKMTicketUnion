@@ -10,80 +10,174 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.URLUtil;
+import com.youth.banner.Banner;
+import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.ViewHolder> {
+    private static final String TAG = "HomeCategoryAdapter";
+
+    private static final int ITEM_TYPE_BANNER = 1;
+    private static final int ITEM_TYPE_TITLE = 2;
+    private static final int ITEM_TYPE_CONTENT = 3;
 
     private Context mContext;
-    private List<Content> mList = new ArrayList<>();
+    private List<Content> mBanners = new ArrayList<>();
+    private List<Content> mContents = new ArrayList<>();
+    private String mTitle;
 
-    public HomeCategoryAdapter(Context context, List<Content> list) {
+    public HomeCategoryAdapter(Context context, List<Content> banners, List<Content> contents) {
         mContext = context;
-        mList = list;
+        mBanners = banners;
+        mContents = contents;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+        notifyDataSetChanged();
+    }
+
+    public void setBanners(List<Content> banners) {
+        mBanners.clear();
+        mBanners.addAll(banners);
+        notifyDataSetChanged();
     }
 
     public void setContents(List<Content> contents, boolean isRefresh) {
         if (isRefresh) {
-            mList.clear();
+            mContents.clear();
         }
-        mList.addAll(contents);
+        mContents.addAll(contents);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            //  轮播图
+            return ITEM_TYPE_BANNER;
+        } else if (position == 1) {
+            //  标题
+            return ITEM_TYPE_TITLE;
+        }
+        //  内容
+        return ITEM_TYPE_CONTENT;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.item_content, parent, false);
-        ViewHolder viewHolder = new ViewHolder(contentView);
-        return viewHolder;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LogUtil.d(TAG, "onCreateViewHolder: ");
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        if (viewType == ITEM_TYPE_BANNER) {
+            //  轮播图
+            View contentView = layoutInflater.inflate(R.layout.item_home_category_banner, parent, false);
+            BannerViewHolder viewHolder = new BannerViewHolder(contentView);
+            return viewHolder;
+        } else if (viewType == ITEM_TYPE_TITLE) {
+            //  标题
+            View contentView = layoutInflater.inflate(R.layout.item_home_category_title, parent, false);
+            TitleViewHolder viewHolder = new TitleViewHolder(contentView);
+            return viewHolder;
+        } else if (viewType == ITEM_TYPE_CONTENT) {
+            //  内容
+            View contentView = layoutInflater.inflate(R.layout.item_home_category_content, parent, false);
+            ContentViewHolder viewHolder = new ContentViewHolder(contentView);
+            return viewHolder;
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Content content = mList.get(position);
-        holder.bind(content);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof BannerViewHolder) {
+            //  轮播图
+            BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
+            bannerViewHolder.bindHolder(mBanners);
+        } else if (holder instanceof TitleViewHolder) {
+            //  标题
+            TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
+            titleViewHolder.bindHolder(mTitle);
+        } else if (holder instanceof ContentViewHolder) {
+            //  内容
+            ContentViewHolder contentViewHolder = (ContentViewHolder) holder;
+            Content content = mContents.get(position - 2);
+            contentViewHolder.bind(content);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mContents.size() + 2;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * 轮播图
+     */
+    public class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_cover)
-        ImageView mIvCover;
+        private Banner mBanner;
 
-        @BindView(R.id.tv_title)
-        TextView mTvTitle;
-
-        @BindView(R.id.tv_off)
-        TextView mTvOff;
-
-        @BindView(R.id.tv_price)
-        TextView mTvPrice;
-
-        @BindView(R.id.tv_origin_price)
-        TextView mTvOriginPrice;
-
-        @BindView(R.id.tv_buy_count)
-        TextView mTvBuyCount;
-
-        public ViewHolder(@NonNull View itemView) {
+        public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mBanner = itemView.findViewById(R.id.banner);
+        }
 
+        public void bindHolder(List<Content> contents) {
+            mBanner.setAdapter(new HomeBannerAdapter(contents))
+                    .addBannerLifecycleObserver((LifecycleOwner) mContext)
+                    .setIndicator(new CircleIndicator(mContext));
+        }
+    }
+
+    /**
+     * 标题
+     */
+    public class TitleViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mTvTitle;
+
+        public TitleViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
+        }
+
+        public void bindHolder(String title) {
+            mTvTitle.setText(title);
+        }
+    }
+
+    /**
+     * 内容
+     */
+    public class ContentViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView mIvCover;
+        private TextView mTvTitle;
+        private TextView mTvOff;
+        private TextView mTvPrice;
+        private TextView mTvOriginPrice;
+        private TextView mTvBuyCount;
+
+        public ContentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mIvCover = itemView.findViewById(R.id.iv_cover);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
+            mTvOff = itemView.findViewById(R.id.tv_off);
+            mTvPrice = itemView.findViewById(R.id.tv_price);
+            mTvOriginPrice = itemView.findViewById(R.id.tv_origin_price);
+            mTvBuyCount = itemView.findViewById(R.id.tv_buy_count);
             //  原价设置中划线
             //  Paint.ANTI_ALIAS_FLAG：抗锯齿
             //  Paint.STRIKE_THRU_TEXT_FLAG：中划线

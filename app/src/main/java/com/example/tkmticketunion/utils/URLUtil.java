@@ -16,6 +16,6 @@ public class URLUtil {
     }
 
     public static String getHomeCategoryImageUrl(String url) {
-        return getImageUrl(url, 300, 300);
+        return getImageUrl(url, 200, 200);
     }
 }

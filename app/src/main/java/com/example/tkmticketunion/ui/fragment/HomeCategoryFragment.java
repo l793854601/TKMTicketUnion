@@ -3,7 +3,6 @@ package com.example.tkmticketunion.ui.fragment;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.example.tkmticketunion.model.domain.Content;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
-import com.example.tkmticketunion.ui.adapter.HomeBannerAdapter;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.ToastUtil;
@@ -26,8 +24,6 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.footer.LoadingView;
 import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
-import com.youth.banner.Banner;
-import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +38,14 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
     private List<Content> mBanners = new ArrayList<>();
 
-    private List<Content> mList = new ArrayList<>();
+    private List<Content> mContents = new ArrayList<>();
 
     private IHomeCategoryPresenter mPresenter;
 
-    private HomeCategoryAdapter mCategoryAdapter;
-
-    private HomeBannerAdapter mBannerAdapter;
+    private HomeCategoryAdapter mAdapter;
 
     @BindView(R.id.refresh_layout)
     TwinklingRefreshLayout mRefreshLayout;
-
-    @BindView(R.id.banner)
-    Banner mBanner;
-
-    @BindView(R.id.tv_title)
-    TextView mTvTitle;
 
     @BindView(R.id.rv)
     RecyclerView mRv;
@@ -89,6 +77,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         //  设置下拉刷新、上拉加载更多
         mRefreshLayout.setHeaderView(new SinaRefreshView(getContext()));
         mRefreshLayout.setBottomView(new LoadingView(getContext()));
+
         //  初始先禁用下拉刷新、上拉加载更多，防止重复加载
         mRefreshLayout.setEnableRefresh(false);
         mRefreshLayout.setEnableLoadmore(false);
@@ -100,16 +89,17 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 //  此处传值单位为px，如果想写成dp，则需要转换
-                outRect.top = UIUtil.px2dip(getContext(), 5);
                 outRect.bottom = UIUtil.px2dip(getContext(), 5);
             }
         };
         mRv.addItemDecoration(itemDecoration);
-        mCategoryAdapter = new HomeCategoryAdapter(getContext(), mList);
-        mRv.setAdapter(mCategoryAdapter);
 
-        //  标题
-        mTvTitle.setText(mCategory.getTitle());
+        //  设置RecyclerView的Adapter
+        mAdapter = new HomeCategoryAdapter(getContext(), mBanners, mContents);
+        mRv.setAdapter(mAdapter);
+
+        //  设置标题
+        mAdapter.setTitle(mCategory.getTitle());
     }
 
     @Override
@@ -147,14 +137,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     public void onBannersLoaded(List<Content> banners) {
         mBanners.clear();
         mBanners.addAll(banners);
-
-        //  重新设置adapter，避免设置数据后，滚到最后一个，且banner无法向前滚动
-        mBannerAdapter = new HomeBannerAdapter(mBanners);
-        mBanner.setAdapter(mBannerAdapter)
-                .addBannerLifecycleObserver(this)
-                .setIndicator(new CircleIndicator(getActivity()));
-
-        mBanner.setVisibility(banners.size() > 0 ? View.VISIBLE : View.GONE);
+        mAdapter.setBanners(banners);
     }
 
     @Override
@@ -165,7 +148,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     @Override
     public void onContentsLoaded(List<Content> contents, boolean isRefresh) {
         setupState(LoadDataState.SUCCESS);
-        mCategoryAdapter.setContents(contents, isRefresh);
+        mAdapter.setContents(contents, isRefresh);
 
         if (isRefresh) {
             mRefreshLayout.finishRefreshing();
