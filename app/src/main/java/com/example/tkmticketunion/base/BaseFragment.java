@@ -41,6 +41,12 @@ public abstract class BaseFragment extends Fragment {
     private View mEmptyView;
     private View mNetworkErrorView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initData(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,8 +60,9 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        initViews(view);
         initPresenter();
+        initViews(view);
+        initListeners();
         loadData();
     }
 
@@ -136,6 +143,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
+     * 初始化数据
+     * @param savedInstanceState
+     */
+    protected void initData(Bundle savedInstanceState) {
+
+    }
+
+    /**
      * 返回contentView的布局id
      * @return
      */
@@ -153,6 +168,13 @@ public abstract class BaseFragment extends Fragment {
      * @param rootView
      */
     protected void initViews(View rootView) {
+
+    }
+
+    /**
+     * 设置监听
+     */
+    protected void initListeners() {
 
     }
 

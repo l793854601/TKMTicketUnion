@@ -6,50 +6,57 @@
     android:layout_height="match_parent"
     android:background="@color/home_category_background">
 
-    <androidx.core.widget.NestedScrollView
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/home_category_background">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@color/home_category_background">
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/home_banner_height"
-                android:layout_marginBottom="@dimen/margin_home_banner"
+                android:layout_height="match_parent"
                 android:background="@color/home_category_background"
-                app:banner_infinite_loop="true"
-                app:banner_indicator_selected_color="@color/main_theme" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/home_title_padding"
-                android:drawablePadding="@dimen/home_title_padding"
-                android:drawableLeft="@drawable/shape_home_title_flag"
-                android:drawableRight="@drawable/shape_home_title_flag"
-                android:background="@color/home_category_background"
-                android:textSize="@dimen/home_title_size"
-                android:textColor="@color/main_theme" />
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/home_banner_height"
+                    android:layout_marginBottom="@dimen/margin_home_banner"
+                    android:background="@color/home_category_background"
+                    app:banner_indicator_selected_color="@color/main_theme"
+                    app:banner_infinite_loop="true" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/home_rv_margin"
-                android:overScrollMode="never"
-                android:background="@color/home_category_background" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/home_category_background"
+                    android:drawableLeft="@drawable/shape_home_title_flag"
+                    android:drawableRight="@drawable/shape_home_title_flag"
+                    android:drawablePadding="@dimen/home_title_padding"
+                    android:padding="@dimen/home_title_padding"
+                    android:textColor="@color/main_theme"
+                    android:textSize="@dimen/home_title_size" />
 
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/home_rv_margin"
+                    android:layout_weight="1"
+                    android:background="@color/home_category_background"
+                    android:overScrollMode="never" />
 
-    </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
 </LinearLayout>

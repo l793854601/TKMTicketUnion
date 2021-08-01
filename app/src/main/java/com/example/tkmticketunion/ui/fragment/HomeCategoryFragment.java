@@ -19,6 +19,10 @@ import com.example.tkmticketunion.ui.adapter.HomeBannerAdapter;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.UIUtil;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.LoadingView;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
 
@@ -42,6 +46,9 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     private HomeCategoryAdapter mCategoryAdapter;
 
     private HomeBannerAdapter mBannerAdapter;
+
+    @BindView(R.id.refresh_layout)
+    TwinklingRefreshLayout mRefreshLayout;
 
     @BindView(R.id.banner)
     Banner mBanner;
@@ -76,6 +83,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
     @Override
     protected void initViews(View rootView) {
+        //  设置下拉刷新、上拉加载更多
+        mRefreshLayout.setHeaderView(new SinaRefreshView(getContext()));
+        mRefreshLayout.setBottomView(new LoadingView(getContext()));
+        mRefreshLayout.setEnableRefresh(false);
+        mRefreshLayout.setEnableLoadmore(false);
+
+        //  设置RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRv.setLayoutManager(layoutManager);
         RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
@@ -90,11 +104,30 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         mCategoryAdapter = new HomeCategoryAdapter(getContext(), mList);
         mRv.setAdapter(mCategoryAdapter);
 
+        //  标题
         mTvTitle.setText(mCategory.getTitle());
     }
 
     @Override
+    protected void initListeners() {
+        mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                LogUtil.d(TAG, "onRefresh");
+                mPresenter.getContentByCategoryId(mCategory.getId(), true);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                LogUtil.d(TAG, "onRefresh");
+                mPresenter.getContentByCategoryId(mCategory.getId(), false);
+            }
+        });
+    }
+
+    @Override
     protected void loadData() {
+        setupState(LoadDataState.LOADING);
         mPresenter.getContentByCategoryId(mCategory.getId(), true);
     }
 
@@ -122,21 +155,21 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     @Override
     public void onLoading(boolean isRefresh) {
         LogUtil.d(TAG, "onLoading: " + isRefresh);
-
-        if (isRefresh) {
-            setupState(LoadDataState.LOADING);
-        }
     }
 
     @Override
     public void onContentsLoaded(List<Content> contents, boolean isRefresh) {
-        LogUtil.d(TAG, "onContentsLoaded: " + contents);
+        setupState(LoadDataState.SUCCESS);
+        mCategoryAdapter.setContents(contents, isRefresh);
 
         if (isRefresh) {
-            setupState(LoadDataState.SUCCESS);
+            mRefreshLayout.finishRefreshing();
+        } else {
+            mRefreshLayout.finishLoadmore();
         }
 
-        mCategoryAdapter.setContents(contents, isRefresh);
+        mRefreshLayout.setEnableRefresh(true);
+        mRefreshLayout.setEnableLoadmore(contents.size() > 0);
     }
 
     @Override

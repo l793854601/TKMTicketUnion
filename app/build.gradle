@@ -31,6 +31,7 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.+'
@@ -54,6 +55,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     //  Banner：轮播图
     implementation 'io.github.youth5201314:banner:2.2.2'
+    //  上拉刷新、下拉加载更多
+    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
     //  基础工具库
     implementation "com.github.tamsiree.RxTool:RxKit:v2.4.1"
     //  UI库

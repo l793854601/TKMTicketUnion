@@ -6,6 +6,7 @@ import com.example.tkmticketunion.model.domain.HttpResponse;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.utils.Constants;
+import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.RetrofitUtil;
 
 import java.net.HttpURLConnection;
@@ -17,6 +18,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
+
+    private static final String TAG = "HomeCategoryPresenterImpl";
 
     private IHomeCategoryCallback mCallback;
     private int mPage = Constants.START_PAGE;
@@ -44,6 +47,7 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
                     HttpResponse<List<Content>> body = response.body();
                     if (body != null) {
                         List<Content> contents = body.getData();
+                        LogUtil.d(TAG, "onContentsLoaded: " + contents);
                         if (contents == null || contents.size() == 0) {
                             if (mCallback != null) {
                                 mCallback.onEmpty(isRefresh);
