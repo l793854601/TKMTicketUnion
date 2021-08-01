@@ -188,10 +188,10 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             mRefreshLayout.finishRefreshing();
         } else {
             mRefreshLayout.finishLoadmore();
-            mRefreshLayout.setEnableLoadmore(false);
-            Resources resources = getContext().getResources();
-            ToastUtil.showToast(getContext(), resources.getString(R.string.tip_network_error), Toast.LENGTH_SHORT);
         }
+
+        Resources resources = getContext().getResources();
+        ToastUtil.showToast(getContext(), resources.getString(R.string.tip_network_error), Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -203,6 +203,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             mRefreshLayout.finishRefreshing();
         } else {
             mRefreshLayout.finishLoadmore();
+            mRefreshLayout.setEnableRefresh(false);
             Resources resources = getContext().getResources();
             ToastUtil.showToast(getContext(), resources.getString(R.string.load_more_empty_tip), Toast.LENGTH_SHORT);
         }
