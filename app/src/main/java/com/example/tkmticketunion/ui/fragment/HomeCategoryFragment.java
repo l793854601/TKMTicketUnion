@@ -90,11 +90,6 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         mCategoryAdapter = new HomeCategoryAdapter(getContext(), mList);
         mRv.setAdapter(mCategoryAdapter);
 
-        mBannerAdapter = new HomeBannerAdapter(mBanners);
-        mBanner.setAdapter(mBannerAdapter)
-                .addBannerLifecycleObserver(getActivity())
-                .setIndicator(new CircleIndicator(getActivity()));
-
         mTvTitle.setText(mCategory.getTitle());
     }
 
@@ -114,7 +109,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     public void onBannersLoaded(List<Content> banners) {
         mBanners.clear();
         mBanners.addAll(banners);
-        mBannerAdapter.notifyDataSetChanged();
+
+        //  重新设置adapter，避免设置数据后，滚到最后一个，且banner无法向前滚动
+        mBannerAdapter = new HomeBannerAdapter(mBanners);
+        mBanner.setAdapter(mBannerAdapter)
+                .addBannerLifecycleObserver(this)
+                .setIndicator(new CircleIndicator(getActivity()));
+
         mBanner.setVisibility(banners.size() > 0 ? View.VISIBLE : View.GONE);
     }
 
