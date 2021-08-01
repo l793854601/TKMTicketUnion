@@ -1,6 +1,8 @@
 package com.example.tkmticketunion.ui.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.utils.URLUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.ViewHolder> {
 
@@ -55,26 +62,53 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mIvCover;
-        private TextView mTvTitle;
-        private TextView mTvOff;
-        private TextView mTvPrice;
-        private TextView mTvOriginPrice;
-        private TextView mTvBuyCount;
+        @BindView(R.id.iv_cover)
+        ImageView mIvCover;
+
+        @BindView(R.id.tv_title)
+        TextView mTvTitle;
+
+        @BindView(R.id.tv_off)
+        TextView mTvOff;
+
+        @BindView(R.id.tv_price)
+        TextView mTvPrice;
+
+        @BindView(R.id.tv_origin_price)
+        TextView mTvOriginPrice;
+
+        @BindView(R.id.tv_buy_count)
+        TextView mTvBuyCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
 
-            mIvCover = itemView.findViewById(R.id.iv_cover);
-            mTvTitle = itemView.findViewById(R.id.tv_title);
-            mTvOff = itemView.findViewById(R.id.tv_off);
-            mTvPrice = itemView.findViewById(R.id.tv_price);
-            mTvOriginPrice = itemView.findViewById(R.id.tv_origin_price);
-            mTvBuyCount = itemView.findViewById(R.id.tv_buy_count);
+            //  原价设置中划线
+            //  Paint.ANTI_ALIAS_FLAG：抗锯齿
+            //  Paint.STRIKE_THRU_TEXT_FLAG：中划线
+            mTvOriginPrice.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         public void bind(Content content) {
+            //  封面
+            Resources resources = mContext.getResources();
 
+            Glide.with(mContext)
+                    .load(URLUtil.getImageUrl(content.getPictUrl()))
+                    .placeholder(resources.getDrawable(R.drawable.ic_launcher_foreground))
+                    .error(resources.getDrawable(R.drawable.ic_launcher_background))
+                    .into(mIvCover);
+            //  标题
+            mTvTitle.setText(content.getTitle());
+            //  节XX元
+            mTvOff.setText(resources.getString(R.string.content_off_price_format, content.getCouponAmount()));
+            //  价格
+            mTvPrice.setText(resources.getString(R.string.content_price_format, Double.parseDouble(content.getZkFinalPrice()) - content.getCouponAmount()));
+            //  原价
+            mTvOriginPrice.setText(resources.getString(R.string.content_origin_price_format, Double.parseDouble(content.getZkFinalPrice())));
+            //  XX人购买
+            mTvBuyCount.setText(resources.getString(R.string.content_buy_count_format, content.getVolume()));
         }
     }
 }

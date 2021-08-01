@@ -19,6 +19,7 @@ import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
+import com.example.tkmticketunion.utils.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +70,9 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                //  此处传值单位为px，如果想写成dp，则需要转换（转换工具类）
-                outRect.top = 5;
-                outRect.bottom = 5;
+                //  此处传值单位为px，如果想写成dp，则需要转换
+                outRect.top = UIUtil.px2dip(getContext(), 5);
+                outRect.bottom = UIUtil.px2dip(getContext(), 5);
             }
         };
         mRv.addItemDecoration(itemDecoration);

@@ -11,4 +11,8 @@
     <string name="tip_empty">暂无数据，请点击重试</string>
     <string name="tmall">天猫</string>
     <string name="content_item_off_title">券后价：</string>
+    <string name="content_off_price_format">省%1$d元</string>
+    <string name="content_price_format">%1$.2f元</string>
+    <string name="content_origin_price_format">%1$.2f元</string>
+    <string name="content_buy_count_format">%1$d人购买</string>
 </resources>
