@@ -91,9 +91,8 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         }
 
         public void bind(Content content) {
-            //  封面
             Resources resources = mContext.getResources();
-
+            //  封面
             Glide.with(mContext)
                     .load(URLUtil.getImageUrl(content.getPictUrl()))
                     .placeholder(resources.getDrawable(R.drawable.ic_launcher_foreground))

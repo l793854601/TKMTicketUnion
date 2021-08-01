@@ -86,6 +86,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
         //  设置下拉刷新、上拉加载更多
         mRefreshLayout.setHeaderView(new SinaRefreshView(getContext()));
         mRefreshLayout.setBottomView(new LoadingView(getContext()));
+        //  初始先禁用下拉刷新、上拉加载更多，防止重复加载
         mRefreshLayout.setEnableRefresh(false);
         mRefreshLayout.setEnableLoadmore(false);
 
@@ -110,6 +111,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
     @Override
     protected void initListeners() {
+        //  下拉刷新、上拉加载更多监听
         mRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
@@ -188,6 +190,9 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
         if (isRefresh) {
             setupState(LoadDataState.EMPTY);
+            mRefreshLayout.finishRefreshing();
+        } else {
+            mRefreshLayout.finishLoadmore();
         }
     }
 }

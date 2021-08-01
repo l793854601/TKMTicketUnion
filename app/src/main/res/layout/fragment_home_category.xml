@@ -9,11 +9,13 @@
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:tr_autoLoadMore="true">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:background="@color/home_category_background">
 
             <LinearLayout
