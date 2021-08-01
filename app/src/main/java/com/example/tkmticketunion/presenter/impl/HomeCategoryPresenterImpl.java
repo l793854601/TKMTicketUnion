@@ -67,11 +67,13 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
                             }
                         }
                     } else {
+                        setupFailedPage();
                         if (mCallback != null) {
                             mCallback.onError(isRefresh);
                         }
                     }
                 } else {
+                    setupFailedPage();
                     if (mCallback != null) {
                         mCallback.onError(isRefresh);
                     }
@@ -80,6 +82,7 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
 
             @Override
             public void onFailure(Call<HttpResponse<List<Content>>> call, Throwable t) {
+                setupFailedPage();
                 if (mCallback != null) {
                     mCallback.onError(isRefresh);
                 }
@@ -97,6 +100,16 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
     public void unregisterViewCallback() {
         if (mCallback != null) {
             mCallback = null;
+        }
+    }
+
+    /**
+     * 请求失败，则将当前页-1
+     */
+    private void setupFailedPage() {
+        mPage--;
+        if (mPage < Constants.START_PAGE) {
+            mPage = Constants.START_PAGE;
         }
     }
 }

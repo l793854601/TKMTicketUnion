@@ -1,8 +1,10 @@
 package com.example.tkmticketunion.ui.fragment;
 
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
 import com.example.tkmticketunion.ui.adapter.HomeBannerAdapter;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
+import com.example.tkmticketunion.utils.ToastUtil;
 import com.example.tkmticketunion.utils.UIUtil;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -168,6 +171,8 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             mRefreshLayout.finishRefreshing();
         } else {
             mRefreshLayout.finishLoadmore();
+            Resources resources = getContext().getResources();
+            ToastUtil.showToast(getContext(), resources.getString(R.string.load_more_tip_format, contents.size()), Toast.LENGTH_SHORT);
         }
 
         mRefreshLayout.setEnableRefresh(true);
@@ -180,8 +185,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
         if (isRefresh) {
             setupState(LoadDataState.FAILED);
+            mRefreshLayout.finishRefreshing();
+        } else {
+            mRefreshLayout.finishLoadmore();
+            mRefreshLayout.setEnableLoadmore(false);
+            Resources resources = getContext().getResources();
+            ToastUtil.showToast(getContext(), resources.getString(R.string.tip_network_error), Toast.LENGTH_SHORT);
         }
-
     }
 
     @Override
@@ -193,6 +203,8 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             mRefreshLayout.finishRefreshing();
         } else {
             mRefreshLayout.finishLoadmore();
+            Resources resources = getContext().getResources();
+            ToastUtil.showToast(getContext(), resources.getString(R.string.load_more_empty_tip), Toast.LENGTH_SHORT);
         }
     }
 }
