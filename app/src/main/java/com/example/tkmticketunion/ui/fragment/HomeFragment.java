@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import com.example.tkmticketunion.presenter.IHomeCallback;
 import com.example.tkmticketunion.presenter.IHomePresenter;
 import com.example.tkmticketunion.presenter.impl.HomePresenterImpl;
 import com.example.tkmticketunion.ui.adapter.HomePagerAdapter;
+import com.example.tkmticketunion.utils.LogUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -24,9 +27,17 @@ import butterknife.BindView;
 
 public class HomeFragment extends BaseFragment implements IHomeCallback {
 
+    private static final String TAG = "HomeFragment";
+
     private IHomePresenter mPresenter;
 
     private HomePagerAdapter mPagerAdapter;
+
+    @BindView(R.id.tv_search)
+    TextView mTvSearch;
+
+    @BindView(R.id.iv_scan)
+    ImageView mIvScan;
 
     @BindView(R.id.home_indicator)
     TabLayout mHomeIndicator;
@@ -77,6 +88,17 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
         mHomeIndicator.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    protected void initListeners() {
+        mTvSearch.setOnClickListener(v -> {
+            LogUtil.d(TAG, "onClickSearch");
+        });
+
+        mIvScan.setOnClickListener(v -> {
+            LogUtil.d(TAG, "onClickScan");
+        });
+    }
+
     /**
      * 网络请求，首先加载分类
      */
@@ -92,6 +114,8 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     public void onGetCategoriesSuccess(List<Category> categories) {
         setupState(LoadDataState.SUCCESS);
+        //  设置ViewPager最大可缓存Fragment数量，避免切换Fragment时，之前的Fragment被销毁
+        mViewPager.setOffscreenPageLimit(categories.size() -1);
         mPagerAdapter.setCategories(categories);
     }
 

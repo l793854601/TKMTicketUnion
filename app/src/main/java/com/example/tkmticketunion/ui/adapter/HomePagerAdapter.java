@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.tkmticketunion.model.domain.Category;
 import com.example.tkmticketunion.ui.fragment.HomeCategoryFragment;
@@ -12,9 +12,11 @@ import com.example.tkmticketunion.ui.fragment.HomeCategoryFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomePagerAdapter extends FragmentPagerAdapter {
+public class HomePagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Category> mList = new ArrayList<>();
+
+    private List<Fragment> mFragments = new ArrayList<>();
 
     public HomePagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

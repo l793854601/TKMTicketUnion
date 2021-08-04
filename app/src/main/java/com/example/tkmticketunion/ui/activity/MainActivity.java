@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 mSelectIndex = index;
                 switchToFragment(target);
             }
-
             return true;
         });
     }
@@ -165,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 显示Fragment，不存在则添加，存在则显示
+     *
      * @param target
      */
     private void switchToFragment(Fragment target) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         //  添加/隐藏
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (fragmentManager.findFragmentByTag(tag) == null) {
+        if (!target.isAdded()) {
             //  不存在，则添加
             transaction.add(R.id.fragment_container, target, tag);
         } else {
