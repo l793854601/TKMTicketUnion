@@ -44,7 +44,7 @@ public class HomeBannerAdapter extends BannerAdapter<Content, HomeBannerAdapter.
 
         public void bindHolder(Content content) {
             Glide.with(mIvBanner.getContext())
-                    .load(URLUtil.getImageUrl(content.getPictUrl()))
+                    .load(URLUtil.getFullUrl(content.getPictUrl()))
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .error(R.drawable.ic_launcher_background)
                     .into(mIvBanner);

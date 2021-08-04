@@ -1,11 +1,12 @@
 package com.example.tkmticketunion.model.domain;
 
+import com.example.tkmticketunion.base.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Map;
 
-public class Content {
+public class Content extends BaseModel {
 
     @SerializedName("category_id")
     private long categoryId;

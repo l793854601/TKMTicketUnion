@@ -1,7 +1,6 @@
 package com.example.tkmticketunion.ui.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.tkmticketunion.R;
+import com.example.tkmticketunion.base.BaseActivity;
 import com.example.tkmticketunion.ui.fragment.ChoiceFragment;
 import com.example.tkmticketunion.ui.fragment.HomeFragment;
 import com.example.tkmticketunion.ui.fragment.SaleFragment;
@@ -22,13 +22,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String SELECT_INDEX_KEY = "SELECT_INDEX_KEY";
-
-    private Unbinder mUnbinder;
 
     //  BottomNavigationView选中的index
     private int mSelectIndex = 0;
@@ -43,16 +41,13 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView mNavigationView;
 
     @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mUnbinder = ButterKnife.bind(this);
-
-        initData(savedInstanceState);
-        initFragments();
-        initEvents();
-
         //  移除所有Fragment
         removeAllFragmentsIfNeed();
         //  默认选中首页
@@ -68,21 +63,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
-    }
-
-    private void initData(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mSelectIndex = savedInstanceState.getInt(SELECT_INDEX_KEY);
         }
     }
 
-    private void initFragments() {
+    @Override
+    protected void initFragments() {
         //  首页
         mHomeFragment = new HomeFragment();
         //  特惠
@@ -93,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         mSearchFragment = new SearchFragment();
     }
 
-    private void initEvents() {
+    @Override
+    protected void initListeners() {
         mNavigationView.setOnNavigationItemSelectedListener(item -> {
             int index = -1;
             Fragment target = null;

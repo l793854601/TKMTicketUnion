@@ -1,7 +1,7 @@
 package com.example.tkmticketunion.utils;
 
 public class URLUtil {
-    public static String getImageUrl(String url) {
+    public static String getFullUrl(String url) {
         if (url.startsWith("http:") || url.startsWith("https:")) {
             return url;
         }
@@ -12,7 +12,7 @@ public class URLUtil {
         if (width != -1 && height != -1) {
             url = String.format("%s_%dx%d.jpg", url, width, height);
         }
-        return getImageUrl(url);
+        return getFullUrl(url);
     }
 
     public static String getHomeCategoryImageUrl(String url) {

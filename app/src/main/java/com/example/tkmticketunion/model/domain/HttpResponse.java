@@ -2,8 +2,6 @@ package com.example.tkmticketunion.model.domain;
 
 import com.example.tkmticketunion.base.BaseModel;
 
-import java.io.Serializable;
-
 /**
  * 网络请求返回
  */

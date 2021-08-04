@@ -16,6 +16,7 @@ import com.example.tkmticketunion.model.domain.Content;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
+import com.example.tkmticketunion.ui.activity.TicketActivity;
 import com.example.tkmticketunion.ui.adapter.HomeCategoryAdapter;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.ToastUtil;
@@ -120,11 +121,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             @Override
             public void onBannerClicked(Content content, int position) {
                 LogUtil.d(TAG, "onBannerClicked: position = " + position + ", title = " + content.getTitle());
+                showTicket(content);
             }
 
             @Override
             public void onContentClicked(Content content, int position) {
                 LogUtil.d(TAG, "onContentClicked: position = " + position + ", title = " + content.getTitle());
+                showTicket(content);
             }
         });
     }
@@ -199,5 +202,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
             Resources resources = getContext().getResources();
             ToastUtil.showToast(getContext(), resources.getString(R.string.load_more_empty_tip), Toast.LENGTH_SHORT);
         }
+    }
+
+    /**
+     * 跳转至领券Activity
+     * @param content
+     */
+    private void showTicket(Content content) {
+        TicketActivity.startActivity(getContext(), content);
     }
 }
