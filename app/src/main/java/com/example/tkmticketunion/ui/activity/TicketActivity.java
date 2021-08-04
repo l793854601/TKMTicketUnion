@@ -3,7 +3,11 @@ package com.example.tkmticketunion.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseActivity;
 import com.example.tkmticketunion.model.domain.Content;
@@ -12,6 +16,10 @@ import com.example.tkmticketunion.presenter.ITicketCallback;
 import com.example.tkmticketunion.presenter.ITicketPresenter;
 import com.example.tkmticketunion.presenter.impl.TicketPresenterImpl;
 import com.example.tkmticketunion.utils.LogUtil;
+import com.example.tkmticketunion.utils.URLUtil;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TicketActivity extends BaseActivity implements ITicketCallback {
 
@@ -22,6 +30,15 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     private ITicketPresenter mPresenter;
 
     private Content mContent;
+
+    @BindView(R.id.iv_cover)
+    ImageView mIvCover;
+
+    @BindView(R.id.tv_code)
+    TextView mTvCode;
+
+    @BindView(R.id.tv_get_code)
+    TextView mTvGetCode;
 
     public static void startActivity(Context context, Content content) {
         Intent intent = new Intent(context, TicketActivity.class);
@@ -38,6 +55,19 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     protected void initPresenter() {
         mPresenter = new TicketPresenterImpl();
         mPresenter.registerViewCallback(this);
+    }
+
+    @Override
+    protected void initViews() {
+        Glide.with(this)
+                .load(URLUtil.getFullUrl(mContent.getPictUrl()))
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_background)
+                .into(mIvCover);
+
+        //  简单处理，隐藏可操作的控件
+        mTvCode.setVisibility(View.INVISIBLE);
+        mTvGetCode.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -75,5 +105,23 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @Override
     public void onGetTicketSuccess(Ticket ticket) {
         LogUtil.d(TAG, "onGetTicketSuccess: ticket = " + ticket);
+        refreshUI(ticket);
+    }
+
+    private void refreshUI(Ticket ticket) {
+        mTvCode.setVisibility(View.VISIBLE);
+        mTvGetCode.setVisibility(View.VISIBLE);
+        //  淘口令
+        mTvCode.setText(ticket.getResponse().getRequestId());
+    }
+
+    @OnClick(R.id.iv_back)
+    void onBackClicked() {
+        finish();
+    }
+
+    @OnClick(R.id.tv_get_code)
+    void onGetCodeClicked() {
+
     }
 }

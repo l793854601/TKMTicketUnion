@@ -17,4 +17,6 @@
     <string name="content_buy_count_format">%1$d人购买</string>
     <string name="load_more_tip_format">加载了%1$d条数据</string>
     <string name="load_more_empty_tip">暂无更多数据</string>
+    <string name="ticket_title">淘口令</string>
+    <string name="ticket_get">领券</string>
 </resources>

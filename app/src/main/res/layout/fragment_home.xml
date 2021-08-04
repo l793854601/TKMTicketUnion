@@ -25,7 +25,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_search"
             android:layout_width="0dp"
-            android:layout_height="@dimen/home_search_bar_height"
+            android:layout_height="@dimen/app_bar_height"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/small_margin"
             android:layout_marginRight="@dimen/small_margin"

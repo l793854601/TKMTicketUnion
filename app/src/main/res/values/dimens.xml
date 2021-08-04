@@ -5,13 +5,13 @@
 
 
     <dimen name="small_padding">10dp</dimen>
-    <dimen name="middlel_padding">16dp</dimen>
+    <dimen name="middle_padding">16dp</dimen>
 
     <dimen name="title_bar_height">60dp</dimen>
     <dimen name="bar_title_size">18sp</dimen>
     <dimen name="bar_right_margin">10dp</dimen>
     <dimen name="bar_left_margin">10dp</dimen>
-    <dimen name="home_search_bar_height">40dp</dimen>
+    <dimen name="app_bar_height">44dp</dimen>
 
     <dimen name="home_search_bar_title_size">14sp</dimen>
     <dimen name="home_indicator_height">40dp</dimen>
@@ -32,6 +32,17 @@
     <dimen name="home_title_size">16sp</dimen>
     <dimen name="margin_home_banner">10dp</dimen>
     <dimen name="home_rv_margin">10dp</dimen>
+    <dimen name="app_bar_title_size">18sp</dimen>
+    <dimen name="ticket_cover_margin">33dp</dimen>
+    <dimen name="line_1dp">1dp</dimen>
+    <dimen name="ticket_code_radius">10dp</dimen>
+    <dimen name="ticket_code_padding">10dp</dimen>
+    <dimen name="ticket_code_margin">30dp</dimen>
+    <dimen name="ticket_get_width">141dp</dimen>
+    <dimen name="ticket_get_height">40dp</dimen>
+    <dimen name="ticket_get_radius">15dp</dimen>
+    <dimen name="ticket_get_margin">30dp</dimen>
+    <dimen name="ticket_get_text_size">18sp</dimen>
 
 
 </resources>
