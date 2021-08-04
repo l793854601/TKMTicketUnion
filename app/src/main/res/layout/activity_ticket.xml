@@ -35,8 +35,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_cover"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/ticket_cover_size"
+        android:layout_height="@dimen/ticket_cover_size"
         android:layout_marginTop="@dimen/ticket_cover_margin"
         tools:srcCompat="@drawable/ic_launcher_background"/>
 
@@ -44,6 +44,7 @@
         android:id="@+id/tv_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="@dimen/ticket_cover_size"
         android:layout_marginTop="@dimen/ticket_code_margin"
         android:padding="@dimen/ticket_code_padding"
         android:background="@drawable/shape_ticket_code_bg"

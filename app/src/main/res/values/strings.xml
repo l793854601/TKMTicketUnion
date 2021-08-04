@@ -19,4 +19,5 @@
     <string name="load_more_empty_tip">暂无更多数据</string>
     <string name="ticket_title">淘口令</string>
     <string name="ticket_get">领券</string>
+    <string name="tip_ticket_code_empty">淘口令为空</string>
 </resources>

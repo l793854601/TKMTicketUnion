@@ -3,9 +3,11 @@ package com.example.tkmticketunion.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
@@ -16,6 +18,8 @@ import com.example.tkmticketunion.presenter.ITicketCallback;
 import com.example.tkmticketunion.presenter.ITicketPresenter;
 import com.example.tkmticketunion.presenter.impl.TicketPresenterImpl;
 import com.example.tkmticketunion.utils.LogUtil;
+import com.example.tkmticketunion.utils.ToastUtil;
+import com.example.tkmticketunion.utils.UIUtil;
 import com.example.tkmticketunion.utils.URLUtil;
 
 import butterknife.BindView;
@@ -30,6 +34,8 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     private ITicketPresenter mPresenter;
 
     private Content mContent;
+
+    private String mCode;
 
     @BindView(R.id.iv_cover)
     ImageView mIvCover;
@@ -52,6 +58,11 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     }
 
     @Override
+    protected void initData(Bundle savedInstanceState) {
+        mContent = (Content) getIntent().getSerializableExtra(CONTENT_KEY);
+    }
+
+    @Override
     protected void initPresenter() {
         mPresenter = new TicketPresenterImpl();
         mPresenter.registerViewCallback(this);
@@ -59,20 +70,15 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
 
     @Override
     protected void initViews() {
+        //  加载封面
         Glide.with(this)
                 .load(URLUtil.getFullUrl(mContent.getPictUrl()))
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 .into(mIvCover);
-
         //  简单处理，隐藏可操作的控件
         mTvCode.setVisibility(View.INVISIBLE);
         mTvGetCode.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-        mContent = (Content) getIntent().getSerializableExtra(CONTENT_KEY);
     }
 
     @Override
@@ -95,6 +101,8 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @Override
     public void onEmpty() {
         LogUtil.d(TAG, "onLoading");
+        String msg = getResources().getString(R.string.tip_network_error);
+        ToastUtil.showToast(this, msg, Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -107,12 +115,20 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
         LogUtil.d(TAG, "onGetTicketSuccess: ticket = " + ticket);
         refreshUI(ticket);
     }
-
+//2.0￥7yKSXlea9re￥ https://m.tb.cn/h.4A8WROA  小苏打香水洗衣液持久留香味持久整箱批家用内衣机洗专用实惠袋装
     private void refreshUI(Ticket ticket) {
+        //  淘口令
+        mCode = ticket.getTicketCode();
+        //  容错处理
+        if (TextUtils.isEmpty(mCode)) {
+            String msg = getResources().getString(R.string.tip_ticket_code_empty);
+            ToastUtil.showToast(this, msg, Toast.LENGTH_SHORT);
+            return;
+        }
+        //  将控件显示，并刷新数据
         mTvCode.setVisibility(View.VISIBLE);
         mTvGetCode.setVisibility(View.VISIBLE);
-        //  淘口令
-        mTvCode.setText(ticket.getResponse().getRequestId());
+        mTvCode.setText(mCode);
     }
 
     @OnClick(R.id.iv_back)
@@ -122,6 +138,13 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
 
     @OnClick(R.id.tv_get_code)
     void onGetCodeClicked() {
+        LogUtil.d(TAG, "onGetCodeClicked");
+        if (TextUtils.isEmpty(mCode)) {
+            String msg = getResources().getString(R.string.tip_ticket_code_empty);
+            ToastUtil.showToast(this, msg, Toast.LENGTH_SHORT);
+            return;
+        }
 
+        //  TODO: 如果安装了淘宝，则跳转淘宝
     }
 }

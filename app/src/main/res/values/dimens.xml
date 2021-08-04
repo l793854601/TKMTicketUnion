@@ -43,6 +43,7 @@
     <dimen name="ticket_get_radius">15dp</dimen>
     <dimen name="ticket_get_margin">30dp</dimen>
     <dimen name="ticket_get_text_size">18sp</dimen>
+    <dimen name="ticket_cover_size">300dp</dimen>
 
 
 </resources>

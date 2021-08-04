@@ -16,6 +16,21 @@ public class Ticket extends BaseModel {
         this.response = response;
     }
 
+    public String getTicketCode() {
+        Response response = getResponse();
+        if (response == null) {
+            return null;
+        }
+
+        Response.Data data = response.getData();
+        if (data == null) {
+            return null;
+        }
+
+        String code = data.getModel();
+        return code;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
