@@ -6,7 +6,12 @@
     android:gravity="center"
     android:background="@color/white">
 
+    <com.example.tkmticketunion.ui.custom.LoadingView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginTop="@dimen/loading_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tip_loading" />

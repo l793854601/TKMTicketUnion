@@ -33,32 +33,66 @@
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_cover"
-        android:layout_width="@dimen/ticket_cover_size"
-        android:layout_height="@dimen/ticket_cover_size"
-        android:layout_marginTop="@dimen/ticket_cover_margin"
-        tools:srcCompat="@drawable/ic_launcher_background"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="@dimen/ticket_cover_size"
-        android:layout_marginTop="@dimen/ticket_code_margin"
-        android:padding="@dimen/ticket_code_padding"
-        android:background="@drawable/shape_ticket_code_bg"
-        tools:text="123!@#$891723890"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_get_code"
-        android:layout_width="@dimen/ticket_get_width"
-        android:layout_height="@dimen/ticket_get_height"
-        android:layout_marginTop="@dimen/ticket_get_margin"
-        android:background="@drawable/shape_ticket_get_bg"
+    <LinearLayout
+        android:id="@+id/ll_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/ticket_get_text_size"
-        android:text="@string/ticket_get" />
+        android:background="@color/white"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <com.example.tkmticketunion.ui.custom.LoadingView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/loading_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tip_loading" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="@dimen/ticket_cover_size"
+            android:layout_height="@dimen/ticket_cover_size"
+            android:layout_marginTop="@dimen/ticket_cover_margin"
+            tools:srcCompat="@drawable/ic_launcher_background"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/ticket_cover_size"
+            android:layout_marginTop="@dimen/ticket_code_margin"
+            android:padding="@dimen/ticket_code_padding"
+            android:background="@drawable/shape_ticket_code_bg"
+            tools:text="123!@#$891723890"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_get_code"
+            android:layout_width="@dimen/ticket_get_width"
+            android:layout_height="@dimen/ticket_get_height"
+            android:layout_marginTop="@dimen/ticket_get_margin"
+            android:background="@drawable/shape_ticket_get_bg"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/ticket_get_text_size"
+            android:text="@string/ticket_get" />
+
+    </LinearLayout>
 
 </LinearLayout>

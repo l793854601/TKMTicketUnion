@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,12 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     private Content mContent;
 
     private String mCode;
+
+    @BindView(R.id.ll_loading)
+    LinearLayout mLlLoading;
+
+    @BindView(R.id.ll_content)
+    LinearLayout mLlContent;
 
     @BindView(R.id.iv_cover)
     ImageView mIvCover;
@@ -76,9 +83,6 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 .into(mIvCover);
-        //  简单处理，隐藏可操作的控件
-        mTvCode.setVisibility(View.INVISIBLE);
-        mTvGetCode.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -96,11 +100,15 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @Override
     public void onLoading() {
         LogUtil.d(TAG, "onLoading");
+        mLlLoading.setVisibility(View.VISIBLE);
+        mLlContent.setVisibility(View.GONE);
     }
 
     @Override
     public void onEmpty() {
-        LogUtil.d(TAG, "onLoading");
+        LogUtil.d(TAG, "onEmpty");
+        mLlLoading.setVisibility(View.GONE);
+        mLlContent.setVisibility(View.GONE);
         String msg = getResources().getString(R.string.tip_network_error);
         ToastUtil.showToast(this, msg, Toast.LENGTH_SHORT);
     }
@@ -108,14 +116,18 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @Override
     public void onError() {
         LogUtil.d(TAG, "onError");
+        mLlLoading.setVisibility(View.GONE);
+        mLlContent.setVisibility(View.GONE);
     }
 
     @Override
     public void onGetTicketSuccess(Ticket ticket) {
         LogUtil.d(TAG, "onGetTicketSuccess: ticket = " + ticket);
+        mLlLoading.setVisibility(View.GONE);
+        mLlContent.setVisibility(View.VISIBLE);
         refreshUI(ticket);
     }
-//2.0￥7yKSXlea9re￥ https://m.tb.cn/h.4A8WROA  小苏打香水洗衣液持久留香味持久整箱批家用内衣机洗专用实惠袋装
+    
     private void refreshUI(Ticket ticket) {
         //  淘口令
         mCode = ticket.getTicketCode();
