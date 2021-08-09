@@ -40,7 +40,7 @@
     <dimen name="ticket_code_margin">30dp</dimen>
     <dimen name="ticket_get_width">141dp</dimen>
     <dimen name="ticket_get_height">40dp</dimen>
-    <dimen name="ticket_get_radius">15dp</dimen>
+    <dimen name="ticket_get_radius">5dp</dimen>
     <dimen name="ticket_get_margin">30dp</dimen>
     <dimen name="ticket_get_text_size">18sp</dimen>
     <dimen name="ticket_cover_size">300dp</dimen>

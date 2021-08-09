@@ -19,4 +19,9 @@ public class Constants {
      * 淘宝包名
      */
     public static final String TAOBAO_PACKAGE_NAME = "com.taobao.taobao";
+
+    /**
+     * 淘宝欢迎页类名
+     */
+    public static final String TAOBAO_WELCOME_CLASS_NAME = "com.taobao.tao.welcome.Welcome";
 }

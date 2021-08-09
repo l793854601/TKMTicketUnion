@@ -1,5 +1,8 @@
 package com.example.tkmticketunion.ui.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -179,6 +182,28 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
             return;
         }
 
-        //  TODO: 如果安装了淘宝，则跳转淘宝
+        //  将口令复制到剪贴板
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(TAG, mCode);
+        clipboardManager.setPrimaryClip(clipData);
+
+
+        if (mIsInstallTaobao) {
+            //  如果安装了淘宝，则跳转淘宝
+            try {
+                Intent intent = new Intent();
+                ComponentName componentName = new ComponentName(
+                        Constants.TAOBAO_PACKAGE_NAME,
+                        Constants.TAOBAO_WELCOME_CLASS_NAME);
+                intent.setComponent(componentName);
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            //  未安装淘宝，则弹出Toast提示
+            String msg = getResources().getString(R.string.copy_success);
+            ToastUtil.showToast(this, msg, Toast.LENGTH_SHORT);
+        }
     }
 }
