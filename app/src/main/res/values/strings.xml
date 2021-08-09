@@ -20,4 +20,6 @@
     <string name="ticket_title">淘口令</string>
     <string name="ticket_get">领券</string>
     <string name="tip_ticket_code_empty">淘口令为空</string>
+    <string name="open_taobao_get_code">打开淘宝，领券</string>
+    <string name="copy_code">复制口令</string>
 </resources>

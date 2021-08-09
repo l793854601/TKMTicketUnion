@@ -14,4 +14,9 @@ public class Constants {
      * 请求起始页
      */
     public static final int START_PAGE = 1;
+
+    /**
+     * 淘宝包名
+     */
+    public static final String TAOBAO_PACKAGE_NAME = "com.taobao.taobao";
 }

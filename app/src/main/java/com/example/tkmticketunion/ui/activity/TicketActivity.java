@@ -2,6 +2,8 @@ package com.example.tkmticketunion.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,9 +20,9 @@ import com.example.tkmticketunion.model.domain.Ticket;
 import com.example.tkmticketunion.presenter.ITicketCallback;
 import com.example.tkmticketunion.presenter.ITicketPresenter;
 import com.example.tkmticketunion.presenter.impl.TicketPresenterImpl;
+import com.example.tkmticketunion.utils.Constants;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.ToastUtil;
-import com.example.tkmticketunion.utils.UIUtil;
 import com.example.tkmticketunion.utils.URLUtil;
 
 import butterknife.BindView;
@@ -37,6 +39,8 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     private Content mContent;
 
     private String mCode;
+
+    private boolean mIsInstallTaobao = false;
 
     @BindView(R.id.ll_loading)
     LinearLayout mLlLoading;
@@ -83,6 +87,24 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 .into(mIvCover);
+
+        //  检查淘宝是否安装
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(Constants.TAOBAO_PACKAGE_NAME, 0);
+            if (packageInfo != null) {
+                LogUtil.d(TAG, "taobao installed");
+                mIsInstallTaobao = true;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (mIsInstallTaobao) {
+            mTvGetCode.setText(R.string.open_taobao_get_code);
+        } else {
+            mTvGetCode.setText(R.string.copy_code);
+        }
     }
 
     @Override
@@ -127,7 +149,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
         mLlContent.setVisibility(View.VISIBLE);
         refreshUI(ticket);
     }
-    
+
     private void refreshUI(Ticket ticket) {
         //  淘口令
         mCode = ticket.getTicketCode();
