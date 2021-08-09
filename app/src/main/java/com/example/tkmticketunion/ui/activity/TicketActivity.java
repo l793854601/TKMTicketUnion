@@ -74,6 +74,18 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mContent = (Content) getIntent().getSerializableExtra(CONTENT_KEY);
+
+        //  检查淘宝是否安装
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(Constants.TAOBAO_PACKAGE_NAME, 0);
+            if (packageInfo != null) {
+                LogUtil.d(TAG, "taobao installed");
+                mIsInstallTaobao = true;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -91,18 +103,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
                 .error(R.drawable.ic_launcher_background)
                 .into(mIvCover);
 
-        //  检查淘宝是否安装
-        try {
-            PackageManager packageManager = getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(Constants.TAOBAO_PACKAGE_NAME, 0);
-            if (packageInfo != null) {
-                LogUtil.d(TAG, "taobao installed");
-                mIsInstallTaobao = true;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
+        //  根据是否安装淘宝，设置按钮（文本）
         if (mIsInstallTaobao) {
             mTvGetCode.setText(R.string.open_taobao_get_code);
         } else {
@@ -194,7 +195,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
                 Intent intent = new Intent();
                 ComponentName componentName = new ComponentName(
                         Constants.TAOBAO_PACKAGE_NAME,
-                        Constants.TAOBAO_WELCOME_CLASS_NAME);
+                        Constants.TAOBAO_MAIN_CLASS_NAME);
                 intent.setComponent(componentName);
                 startActivity(intent);
             } catch (Exception e) {
