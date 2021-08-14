@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseActivity;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.model.domain.Ticket;
 import com.example.tkmticketunion.presenter.ITicketCallback;
 import com.example.tkmticketunion.presenter.ITicketPresenter;
@@ -39,7 +39,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
 
     private ITicketPresenter mPresenter;
 
-    private Content mContent;
+    private HomeContent mContent;
 
     private String mCode;
 
@@ -60,7 +60,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
     @BindView(R.id.tv_get_code)
     TextView mTvGetCode;
 
-    public static void startActivity(Context context, Content content) {
+    public static void startActivity(Context context, HomeContent content) {
         Intent intent = new Intent(context, TicketActivity.class);
         intent.putExtra(CONTENT_KEY, content);
         context.startActivity(intent);
@@ -73,7 +73,7 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mContent = (Content) getIntent().getSerializableExtra(CONTENT_KEY);
+        mContent = (HomeContent) getIntent().getSerializableExtra(CONTENT_KEY);
 
         //  检查淘宝是否安装
         try {
@@ -185,9 +185,9 @@ public class TicketActivity extends BaseActivity implements ITicketCallback {
 
         //  将口令复制到剪贴板
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(TAG, mCode);
+        String label = "sob_taobao_ticket_code";
+        ClipData clipData = ClipData.newPlainText(label, mCode);
         clipboardManager.setPrimaryClip(clipData);
-
 
         if (mIsInstallTaobao) {
             //  如果安装了淘宝，则跳转淘宝

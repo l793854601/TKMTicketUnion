@@ -1,7 +1,9 @@
 package com.example.tkmticketunion.model.api;
 
-import com.example.tkmticketunion.model.domain.Category;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.ChoiceCategory;
+import com.example.tkmticketunion.model.domain.ChoiceContents;
+import com.example.tkmticketunion.model.domain.HomeCategory;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.model.domain.GetTicketParam;
 import com.example.tkmticketunion.model.domain.HttpResponse;
 import com.example.tkmticketunion.model.domain.Ticket;
@@ -10,8 +12,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -26,7 +26,7 @@ public interface API {
      * @return
      */
     @GET("discovery/categories")
-    Call<HttpResponse<List<Category>>> getHomeCategories();
+    Call<HttpResponse<List<HomeCategory>>> getHomeCategories();
 
     /**
      * 获取首页分类内容列表
@@ -35,7 +35,7 @@ public interface API {
      * @return
      */
     @GET("discovery/{materialId}/{page}")
-    Call<HttpResponse<List<Content>>> getCategoryContents(@Path("materialId") int categoryId, @Path("page") int page);
+    Call<HttpResponse<List<HomeContent>>> getHomeCategoryContents(@Path("materialId") int categoryId, @Path("page") int page);
 
     /**
      * 获取淘口令
@@ -44,4 +44,19 @@ public interface API {
      */
     @POST("tpwd")
     Call<HttpResponse<Ticket>> getTicket(@Body GetTicketParam param);
+
+    /**
+     * 获取精选分类
+     * @return
+     */
+    @GET("recommend/categories")
+    Call<HttpResponse<List<ChoiceCategory>>> getChoiceCategories();
+
+    /**
+     * 获取精选分类内容列表
+     * @param categoryId
+     * @return
+     */
+    @GET("recommend/{categoryId}")
+    Call<HttpResponse<ChoiceContents>> getChoiceCategoryContents(@Path("categoryId") String categoryId);
 }

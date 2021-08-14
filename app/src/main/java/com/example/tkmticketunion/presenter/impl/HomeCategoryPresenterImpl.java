@@ -1,7 +1,7 @@
 package com.example.tkmticketunion.presenter.impl;
 
 import com.example.tkmticketunion.model.api.API;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.model.domain.HttpResponse;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
@@ -38,15 +38,15 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
 
         Retrofit retrofit = RetrofitUtil.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
-        Call<HttpResponse<List<Content>>> call = api.getCategoryContents(categoryId, mPage);
-        call.enqueue(new Callback<HttpResponse<List<Content>>>() {
+        Call<HttpResponse<List<HomeContent>>> call = api.getHomeCategoryContents(categoryId, mPage);
+        call.enqueue(new Callback<HttpResponse<List<HomeContent>>>() {
             @Override
-            public void onResponse(Call<HttpResponse<List<Content>>> call, Response<HttpResponse<List<Content>>> response) {
+            public void onResponse(Call<HttpResponse<List<HomeContent>>> call, Response<HttpResponse<List<HomeContent>>> response) {
                 int code = response.code();
                 if (code == HttpURLConnection.HTTP_OK) {
-                    HttpResponse<List<Content>> body = response.body();
+                    HttpResponse<List<HomeContent>> body = response.body();
                     if (body != null) {
-                        List<Content> contents = body.getData();
+                        List<HomeContent> contents = body.getData();
                         LogUtil.d(TAG, "onContentsLoaded: " + contents);
                         if (contents == null || contents.size() == 0) {
                             if (mCallback != null) {
@@ -60,7 +60,7 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
                             if (isRefresh) {
                                 int fromIndex = contents.size() - 5;
                                 int toIndex = contents.size();
-                                List<Content> banners = contents.subList(fromIndex, toIndex);
+                                List<HomeContent> banners = contents.subList(fromIndex, toIndex);
                                 if (mCallback != null) {
                                     mCallback.onBannersLoaded(banners);
                                 }
@@ -81,7 +81,7 @@ public class HomeCategoryPresenterImpl implements IHomeCategoryPresenter {
             }
 
             @Override
-            public void onFailure(Call<HttpResponse<List<Content>>> call, Throwable t) {
+            public void onFailure(Call<HttpResponse<List<HomeContent>>> call, Throwable t) {
                 setupFailedPage();
                 if (mCallback != null) {
                     mCallback.onError(isRefresh);

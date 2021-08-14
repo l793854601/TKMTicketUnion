@@ -13,7 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseFragment;
-import com.example.tkmticketunion.model.domain.Category;
+import com.example.tkmticketunion.model.domain.HomeCategory;
 import com.example.tkmticketunion.presenter.IHomeCallback;
 import com.example.tkmticketunion.presenter.IHomePresenter;
 import com.example.tkmticketunion.presenter.impl.HomePresenterImpl;
@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
      * @param categories
      */
     @Override
-    public void onGetCategoriesSuccess(List<Category> categories) {
+    public void onGetCategoriesSuccess(List<HomeCategory> categories) {
         setupState(LoadDataState.SUCCESS);
         //  设置ViewPager最大可缓存Fragment数量，避免切换Fragment时，之前的Fragment被销毁
         mViewPager.setOffscreenPageLimit(categories.size() -1);

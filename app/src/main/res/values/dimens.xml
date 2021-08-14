@@ -46,6 +46,8 @@
     <dimen name="ticket_cover_size">300dp</dimen>
     <dimen name="loading_view_size">33dp</dimen>
     <dimen name="loading_margin">10dp</dimen>
+    <dimen name="choice_category_size">14sp</dimen>
+    <dimen name="choice_category_height">40dp</dimen>
 
 
 </resources>

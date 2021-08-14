@@ -1,7 +1,7 @@
 package com.example.tkmticketunion.presenter.impl;
 
 import com.example.tkmticketunion.model.api.API;
-import com.example.tkmticketunion.model.domain.Category;
+import com.example.tkmticketunion.model.domain.HomeCategory;
 import com.example.tkmticketunion.model.domain.HttpResponse;
 import com.example.tkmticketunion.presenter.IHomeCallback;
 import com.example.tkmticketunion.presenter.IHomePresenter;
@@ -31,17 +31,17 @@ public class HomePresenterImpl implements IHomePresenter {
         //  网络请求
         Retrofit retrofit = RetrofitUtil.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
-        Call<HttpResponse<List<Category>>> call = api.getHomeCategories();
-        call.enqueue(new Callback<HttpResponse<List<Category>>>() {
+        Call<HttpResponse<List<HomeCategory>>> call = api.getHomeCategories();
+        call.enqueue(new Callback<HttpResponse<List<HomeCategory>>>() {
             @Override
-            public void onResponse(Call<HttpResponse<List<Category>>> call, Response<HttpResponse<List<Category>>> response) {
+            public void onResponse(Call<HttpResponse<List<HomeCategory>>> call, Response<HttpResponse<List<HomeCategory>>> response) {
                 int code = response.code();
                 if (code == HttpURLConnection.HTTP_OK) {
                     //  Http请求成功
-                    HttpResponse<List<Category>> body = response.body();
+                    HttpResponse<List<HomeCategory>> body = response.body();
                     if (body != null) {
                         if (body.isSuccess()) {
-                            List<Category> categories = body.getData();
+                            List<HomeCategory> categories = body.getData();
                             if (categories != null && categories.size() > 0) {
                                 //  请求成功
                                 if (mCallback != null) {
@@ -74,7 +74,7 @@ public class HomePresenterImpl implements IHomePresenter {
             }
 
             @Override
-            public void onFailure(Call<HttpResponse<List<Category>>> call, Throwable t) {
+            public void onFailure(Call<HttpResponse<List<HomeCategory>>> call, Throwable t) {
                 LogUtil.d(TAG, "load home categories failed: " + t);
                 if (mCallback != null) {
                     mCallback.onError();

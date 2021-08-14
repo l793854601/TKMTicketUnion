@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tkmticketunion.R;
 import com.example.tkmticketunion.base.BaseFragment;
-import com.example.tkmticketunion.model.domain.Category;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeCategory;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.presenter.IHomeCategoryCallback;
 import com.example.tkmticketunion.presenter.IHomeCategoryPresenter;
 import com.example.tkmticketunion.presenter.impl.HomeCategoryPresenterImpl;
@@ -35,11 +35,11 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
     private static final String TAG = "HomeCategoryFragment";
 
-    private Category mCategory;
+    private HomeCategory mCategory;
 
-    private List<Content> mBanners = new ArrayList<>();
+    private List<HomeContent> mBanners = new ArrayList<>();
 
-    private List<Content> mContents = new ArrayList<>();
+    private List<HomeContent> mContents = new ArrayList<>();
 
     private IHomeCategoryPresenter mPresenter;
 
@@ -56,7 +56,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
      * @param category
      * @return
      */
-    public static HomeCategoryFragment newInstance(Category category) {
+    public static HomeCategoryFragment newInstance(HomeCategory category) {
         HomeCategoryFragment fragment = new HomeCategoryFragment();
         fragment.mCategory = category;
         return fragment;
@@ -119,13 +119,13 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
 
         mAdapter.setOnItemClickListener(new HomeCategoryAdapter.OnItemClickListener() {
             @Override
-            public void onBannerClicked(Content content, int position) {
+            public void onBannerClicked(HomeContent content, int position) {
                 LogUtil.d(TAG, "onBannerClicked: position = " + position + ", title = " + content.getTitle());
                 showTicket(content);
             }
 
             @Override
-            public void onContentClicked(Content content, int position) {
+            public void onContentClicked(HomeContent content, int position) {
                 LogUtil.d(TAG, "onContentClicked: position = " + position + ", title = " + content.getTitle());
                 showTicket(content);
             }
@@ -146,7 +146,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     }
 
     @Override
-    public void onBannersLoaded(List<Content> banners) {
+    public void onBannersLoaded(List<HomeContent> banners) {
         mBanners.clear();
         mBanners.addAll(banners);
         mAdapter.setBanners(banners);
@@ -158,7 +158,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
     }
 
     @Override
-    public void onContentsLoaded(List<Content> contents, boolean isRefresh) {
+    public void onContentsLoaded(List<HomeContent> contents, boolean isRefresh) {
         setupState(LoadDataState.SUCCESS);
         mAdapter.setContents(contents, isRefresh);
 
@@ -208,7 +208,7 @@ public class HomeCategoryFragment extends BaseFragment implements IHomeCategoryC
      * 跳转至领券Activity
      * @param content
      */
-    private void showTicket(Content content) {
+    private void showTicket(HomeContent content) {
         TicketActivity.startActivity(getContext(), content);
     }
 }

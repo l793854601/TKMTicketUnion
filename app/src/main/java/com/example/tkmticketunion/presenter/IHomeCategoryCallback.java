@@ -1,6 +1,6 @@
 package com.example.tkmticketunion.presenter;
 
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeContent;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface IHomeCategoryCallback {
      * 获取轮播图
      * @param banners
      */
-    void onBannersLoaded(List<Content> banners);
+    void onBannersLoaded(List<HomeContent> banners);
 
     /**
      * 加载中
@@ -23,7 +23,7 @@ public interface IHomeCategoryCallback {
      * @param contents
      * @param isRefresh
      */
-    void onContentsLoaded(List<Content> contents, boolean isRefresh);
+    void onContentsLoaded(List<HomeContent> contents, boolean isRefresh);
 
     /**
      * 数据加载错误

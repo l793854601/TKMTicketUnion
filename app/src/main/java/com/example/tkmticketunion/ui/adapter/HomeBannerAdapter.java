@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.utils.URLUtil;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
 
-public class HomeBannerAdapter extends BannerAdapter<Content, HomeBannerAdapter.ViewHolder> {
+public class HomeBannerAdapter extends BannerAdapter<HomeContent, HomeBannerAdapter.ViewHolder> {
 
-    public HomeBannerAdapter(List<Content> datas) {
+    public HomeBannerAdapter(List<HomeContent> datas) {
         super(datas);
     }
 
@@ -29,7 +29,7 @@ public class HomeBannerAdapter extends BannerAdapter<Content, HomeBannerAdapter.
     }
 
     @Override
-    public void onBindView(ViewHolder holder, Content data, int position, int size) {
+    public void onBindView(ViewHolder holder, HomeContent data, int position, int size) {
         holder.bindHolder(data);
     }
 
@@ -42,7 +42,7 @@ public class HomeBannerAdapter extends BannerAdapter<Content, HomeBannerAdapter.
             mIvBanner = itemView.findViewById(R.id.iv_banner);
         }
 
-        public void bindHolder(Content content) {
+        public void bindHolder(HomeContent content) {
             Glide.with(mIvBanner.getContext())
                     .load(URLUtil.getFullUrl(content.getPictUrl()))
                     .placeholder(R.drawable.ic_launcher_foreground)

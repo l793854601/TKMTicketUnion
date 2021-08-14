@@ -5,7 +5,7 @@ import com.example.tkmticketunion.base.BaseModel;
 /**
  * 首页分类
  */
-public class Category extends BaseModel {
+public class HomeCategory extends BaseModel {
     private int id;
     private String title;
 

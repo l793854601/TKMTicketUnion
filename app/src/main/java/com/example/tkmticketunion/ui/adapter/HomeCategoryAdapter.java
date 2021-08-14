@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tkmticketunion.R;
-import com.example.tkmticketunion.model.domain.Content;
+import com.example.tkmticketunion.model.domain.HomeContent;
 import com.example.tkmticketunion.utils.LogUtil;
 import com.example.tkmticketunion.utils.URLUtil;
 import com.youth.banner.Banner;
@@ -27,8 +27,8 @@ import java.util.List;
 public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface OnItemClickListener {
-        void onBannerClicked(Content content, int position);
-        void onContentClicked(Content content, int position);
+        void onBannerClicked(HomeContent content, int position);
+        void onContentClicked(HomeContent content, int position);
     }
 
     private static final String TAG = "HomeCategoryAdapter";
@@ -40,24 +40,24 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnItemClickListener mOnItemClickListener;
 
     private Context mContext;
-    private List<Content> mBanners = new ArrayList<>();
-    private List<Content> mContents = new ArrayList<>();
+    private List<HomeContent> mBanners = new ArrayList<>();
+    private List<HomeContent> mContents = new ArrayList<>();
     private String mTitle;
 
-    public HomeCategoryAdapter(Context context, String title, List<Content> banners, List<Content> contents) {
+    public HomeCategoryAdapter(Context context, String title, List<HomeContent> banners, List<HomeContent> contents) {
         mContext = context;
         mTitle = title;
         mBanners = banners;
         mContents = contents;
     }
 
-    public void setBanners(List<Content> banners) {
+    public void setBanners(List<HomeContent> banners) {
         mBanners.clear();
         mBanners.addAll(banners);
         notifyDataSetChanged();
     }
 
-    public void setContents(List<Content> contents, boolean isRefresh) {
+    public void setContents(List<HomeContent> contents, boolean isRefresh) {
         if (isRefresh) {
             mContents.clear();
         }
@@ -104,7 +104,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             contentView.setOnClickListener(v -> {
                 if (mOnItemClickListener != null) {
                     int position = viewHolder.getAdapterPosition() - 2;
-                    Content content = mContents.get(position);
+                    HomeContent content = mContents.get(position);
                     mOnItemClickListener.onBannerClicked(content, position);
                 }
             });
@@ -126,7 +126,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof ContentViewHolder) {
             //  内容
             ContentViewHolder contentViewHolder = (ContentViewHolder) holder;
-            Content content = mContents.get(position - 2);
+            HomeContent content = mContents.get(position - 2);
             contentViewHolder.bind(content);
         }
     }
@@ -141,14 +141,14 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        private Banner<Content, HomeBannerAdapter> mBanner;
+        private Banner<HomeContent, HomeBannerAdapter> mBanner;
 
         public BannerViewHolder(@NonNull View itemView) {
             super(itemView);
             mBanner = itemView.findViewById(R.id.banner);
         }
 
-        public void bindHolder(List<Content> contents) {
+        public void bindHolder(List<HomeContent> contents) {
             mBanner.setAdapter(new HomeBannerAdapter(contents))
                     .addBannerLifecycleObserver((LifecycleOwner) mContext)
                     .setIndicator(new CircleIndicator(mContext));
@@ -205,7 +205,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvOriginPrice.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        public void bind(Content content) {
+        public void bind(HomeContent content) {
             Resources resources = mContext.getResources();
             //  封面
             Glide.with(mContext)

@@ -23,4 +23,5 @@
     <string name="open_taobao_get_code">打开淘宝，领券</string>
     <string name="copy_code">复制口令</string>
     <string name="copy_success">复制成功</string>
+    <string name="title_choice">精选宝贝</string>
 </resources>

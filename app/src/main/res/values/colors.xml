@@ -13,4 +13,6 @@
     <color name="home_title_color">#aaffffff</color>
     <color name="tmall">#D0021B</color>
     <color name="home_category_background">#EFEEEE</color>
+    <color name="choice_catefory_normal">#ffffffff</color>
+    <color name="choice_catefory_selected">#ffcccccc</color>
 </resources>

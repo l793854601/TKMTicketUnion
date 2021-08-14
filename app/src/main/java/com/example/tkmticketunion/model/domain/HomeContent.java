@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Map;
 
-public class Content extends BaseModel {
+public class HomeContent extends BaseModel {
 
     @SerializedName("category_id")
     private long categoryId;
